@@ -67,8 +67,8 @@
                             <!-- ลิงก์ไปยังหน้ารายละเอียดนักศึกษา -->
                             <td>
                                 <!-- ชื่อนักศึกษาไปที่หน้า details ได้ ในอาทิตย์หน้า -->
-                                <a class="text-decoration-none fw-bold">
-                                    {{ $row->student_name }}
+                                <a href="{{ route('students.show', $row->student_id) }}" class="text-decoration-none fw-bold"> 
+                                    {{ $row->student_name }} <i class="fas fa-external-link-alt fa-xs text-muted"></i>
                                 </a>
                             </td>
                             <!-- คณะ -->
@@ -91,17 +91,56 @@
                             <!-- ปุ่มจัดการ -->
                             <td class="text-center">
                                 <!-- ปุ่มแก้ไขเกรด ให้เพิ่มอาทิตย์ถัดไป -->
-                                
+                                <button class="btn btn-sm btn-outline-primary" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#editModal{{ $row->enrollment_id }}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
                                 <!-- สิ้นสุดปุ่มแก้ไขเกรด -->
                                 <!-- ฟอร์มลบการลงทะเบียน ให้เพิ่มอาทิตย์ถัดไป -->
-                                
+                                <form action="{{ route('enrollments.destroy', $row->enrollment_id) }}" 
+                                method="POST" 
+                                class="d-inline" 
+                                onsubmit="return confirm('ยืนยันการถอนรายวิชา?');">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
                                 <!-- สิ้นสุดฟอร์มลบการลงทะเบียน -->
                             </td>
                             <!-- สิ้นสุดปุ่มจัดการ -->
                         </tr>
 
                         <!-- โมดัลแก้ไขเกรด ให้เพิ่มอาทิตย์ถัดไป -->
-                        
+                        <div class="modal fade" id="editModal{{ $row->enrollment_id }}" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="{{ route('enrollments.update', $row->enrollment_id) }}" method="POST">
+                                        @csrf @method('PUT')
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">บันทึกเกรด: {{ $row->student_name }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <label>วิชา: {{ $row->course_code }} {{ $row->course_name }}</label>
+                                            <div class="mt-2">
+                                                <label class="form-label">เลือกเกรด</label>
+                                                <select name="grade" class="form-select">
+                                                    <option value="">-- รอตัดเกรด --</option>
+                                                    @foreach(['A', 'B+', 'B', 'C+', 'C', 'D', 'F'] as $g)
+                                                        <option value="{{ $g }}" {{ $row->grade == $g ? 'selected' : '' }}>{{ $g }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">บันทึก</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                         <!-- สิ้นสุดโมดัลแก้ไขเกรด -->
                         @endforeach
                     </tbody>

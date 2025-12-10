@@ -16,4 +16,10 @@ class Student extends Model
         'name', 
         'department_id'
     ];
+
+    public function department()
+    {
+        // แปลว่า: นักศึกษา 1 คน "สังกัด" (Belongs To) 1 คณะ
+        return $this->belongsTo(Department::class);
+    }
 }
