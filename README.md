@@ -1,4 +1,8 @@
 <h1>วิธีใช้งานโปรเจ็ค</h1><br/><br/>
+***กรุณาใช้คำสั่งผ่าน Cmder (Terminal ของโปรแกรม Laragon)<br/>
+***กรุณาวางไฟล์โปรเจ็คหรือ git clone ที่ โฟลเดอร์ www ของโฟลเดอร์โปรแกรม Laragon<br/>
+โดยที่ work directory ของ Cmder ต้องเป็น C:\laragon\www\MyB68xxxxxCRUD ถึงจะทำคำสั่งหลังจากข้อความบรรทัดต่อไปได้<br/><br/>
+
 1. git clone repo<br/>
 " git clone https://github.com/pyrnmsutdgt/dgtcrud.git "
 <br/><br/>
